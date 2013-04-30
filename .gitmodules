@@ -1,0 +1,6 @@
+[submodule "jquery-el"]
+	path = jquery-el
+	url = https://github.com/sagittarian/jquery-el.git
+[submodule "jquery_jeditable"]
+	path = jquery_jeditable
+	url = https://github.com/tuupola/jquery_jeditable.git
