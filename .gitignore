@@ -3,3 +3,6 @@ venv
 sqlite.db
 #*#
 *~
+/static/
+.directory
+*.js

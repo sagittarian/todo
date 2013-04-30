@@ -91,10 +91,10 @@ def additem(request, label, priority):
 
 
 @ajax_request
-@ajax_get_item
-@ajax_get_todo_fields
 @ajax_requires_POST
 @ajax_requires_login
+@ajax_get_item
+@ajax_get_todo_fields
 def moditem(request, item, label, priority):
     '''Modify the label and/or priority of the item with the id
     specified in the POST request.'''
