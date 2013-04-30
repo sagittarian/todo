@@ -21,6 +21,7 @@ def buildjs():
     with lcd(BASEDIR):
         files = ['jquery-el/jquery-el.js',
                  'jquery_jeditable/js/jquery.jeditable.js',
+                 'facebox/src/facebox.js',
                  'todo/static/js/todo.js']
         local('cat {} > todo/static/js/todo.all.js'.format(' '.join(files)))
         with lcd('todo/static/js'):
