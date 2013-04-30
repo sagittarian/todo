@@ -1,7 +1,6 @@
 from models import LABEL_MAX_LEN
 
 from django.test import TestCase
-from django.test.client import Client
 from django.core.urlresolvers import reverse
 
 import json
@@ -16,14 +15,13 @@ class TodolistTest(TestCase):
         self.addurl = reverse('additem')
         self.delurl = reverse('delitem')
         self.modurl = reverse('moditem')
-        self.c = Client()
         self.label = hex(random.randint(0x10000000, 0xffffffff))
 
     def login(self):
-        self.c.login(username='admin', password='admin')
+        self.client.login(username='admin', password='admin')
 
     def test_list_for_unauthenticated_user(self):
-        response = self.c.get(self.getlisturl)
+        response = self.client.get(self.getlisturl)
         d = json.loads(response.content)
         self.assertIn('error', d)
         self.assertIsNotNone(d['error'])
@@ -31,7 +29,7 @@ class TodolistTest(TestCase):
 
     def test_list_for_authenticated_user(self):
         self.login()
-        response = self.c.get(self.getlisturl)
+        response = self.client.get(self.getlisturl)
         d = json.loads(response.content)
         self.assertIn('error', d)
         self.assertIsNone(d['error'])
@@ -43,7 +41,7 @@ class TodolistTest(TestCase):
             self.assertIn('priority', item)
 
     def get_items(self):
-        response = self.c.get(self.getlisturl)
+        response = self.client.get(self.getlisturl)
         d = json.loads(response.content)
         return d['items']
 
@@ -51,7 +49,7 @@ class TodolistTest(TestCase):
         data = {'label': label}
         if priority is not None:
             data['priority'] = priority
-        response = self.c.post(self.addurl, data)
+        response = self.client.post(self.addurl, data)
         return json.loads(response.content)
 
     def test_add_item(self):
@@ -72,7 +70,7 @@ class TodolistTest(TestCase):
         self.login()
         id = self.add_item(self.label)['id']
 
-        response = self.c.post(self.delurl, {'id': id})
+        response = self.client.post(self.delurl, {'id': id})
         d = json.loads(response.content)
         self.assertIn('error', d)
         self.assertIsNone(d['error'])
@@ -88,12 +86,12 @@ class TodolistTest(TestCase):
         self.assertTrue(any(self.label == item['label'] and id == item['id']
                             for item in self.get_items()))
 
-        response = self.c.post(self.modurl,
+        response = self.client.post(self.modurl,
                                {'id': id, 'label': newlabel,
                                 'priority': newpriority})
         d = json.loads(response.content)
         self.assertIsNone(d['error'])
-        
+
         for item in self.get_items():
             if item['id'] == id:
                 self.assertEqual(item['label'], newlabel)
@@ -113,7 +111,7 @@ class TodolistTest(TestCase):
              'I can\'t keep typing forever')
         d = self.add_item(s)
         self.assertIsNone(d['error'])
-        
+
         for item in self.get_items():
             if item['id'] == d['id']:
                 self.assertEqual(item['label'], s[:LABEL_MAX_LEN])
