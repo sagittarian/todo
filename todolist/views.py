@@ -1,31 +1,9 @@
 from models import TodoItem, LABEL_MAX_LEN, PRIORITIES_LIST
-from annoying.decorators import ajax_request
 from annoying.functions import get_object_or_None
 
+from todo.decorators import *
 
 #******* Decorators *******
-
-def ajax_requires_login(func):
-    '''Decorator to return a simple JSON object with an error message
-    if the user is not authenticated.'''
-    def newfunc(request, *args, **kw):
-        if not request.user.is_authenticated():
-            return {'error': 'Not logged in'}
-        result = {'error': None}
-        result.update(func(request, *args, **kw))
-        return result
-    return newfunc
-
-
-def ajax_requires_POST(func):
-    '''Decorator to return a simple JSON object with an error message
-    if the request was not sent via POST'''
-    def newfunc(request, *args, **kw):
-        if request.method != 'POST':
-            return {'error': 'Request must be sent via POST'}
-        return func(request, *args, **kw)
-    return newfunc
-
 
 def ajax_get_item(func):
     '''Decorator to check that an id is present in the POST data,
