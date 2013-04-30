@@ -1,0 +1,20 @@
+[
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "admin", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2013-04-29T17:19:29.903Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$NcPzYYAGb9Ls$zHyqftJD2ZE5J3iHqNDnWebaNQxuDxM6d7refhWAYbo=", 
+        "email": "adam@mesha.org", 
+        "date_joined": "2013-04-29T14:43:43.867Z"
+    }
+}
+]
