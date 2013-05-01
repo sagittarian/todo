@@ -1168,11 +1168,7 @@ Use like this:
       });
       $parent.removeClass().addClass('todoitem');
       settings.itemtd.editable('destroy');
-      settings.itemtd.editable(edit_cell);
-      return settings.prioritytd.editable(edit_priority, {
-        type: 'select',
-        data: priorities
-      });
+      return settings.itemtd.editable(edit_cell);
     });
     return value;
   };

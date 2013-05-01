@@ -121,9 +121,6 @@ add_cell = (value, settings) ->
     $parent.removeClass().addClass 'todoitem'
     settings.itemtd.editable 'destroy'
     settings.itemtd.editable edit_cell
-    settings.prioritytd.editable edit_priority,
-      type: 'select'
-      data: priorities
   return value
 
 setlist = ->
