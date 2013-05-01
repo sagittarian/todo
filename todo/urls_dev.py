@@ -5,8 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^todo/', include('todolist.urls')),
-    url(r'^account/', include('ajaxreg.urls')),
+    url(r'^api/todo/', include('todolist.urls')),
+    url(r'^api/account/', include('ajaxreg.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

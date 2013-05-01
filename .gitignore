@@ -6,3 +6,5 @@ sqlite.db
 /static/
 .directory
 *.js
+local_settings.py
+passwords.py
