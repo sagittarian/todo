@@ -6,17 +6,70 @@
 .todolist tr {
     height: 1.5em;
 }
+#register, #login, #password-change, #password-reset {
+    display: none;
+}
+.additem-btn {
+    display: none;
+}
 </style>
+<link rel="stylesheet" href="css/facebox.css">
 </head>
 <body>
 <div class="header">
+    <h1>Todo list</h1>
+    <div id="account-info"></div>
 </div>
+<div id="messages"></div>
 <div class="main-content">
-    <table class="todolist">
-    </table>
+    <table class="todolist"></table>
     <a class="additem-btn" href="">Add item</a>
 </div>
 <div class="footer"></div>
+<div id="register">
+    <p>Sign up in two seconds.</p>
+    <form method="post" action="/api/account/register/" data-refresh="1">
+    <ul>
+        <li><label>Username: <input type="text" name="username"></label></li>
+        <li><label>Email: <input type="text" name="email"></label></li>
+        <li><label>Password: <input type="password" name="password"></label></li>
+        <li><input type="submit" 
+                   name="register-btn" id="register-btn" value="Sign up"></li>
+    </ul>
+    </form>
+</div>
+<div id="login">
+    <p>Log in. 
+       <a href="#password-reset" class="facebox">Forgot your password?</a></p>
+    <form method="post" action="/api/account/login/" data-refresh="1">
+    <ul>
+        <li><label>Username: <input type="text" name="username"></label></li>
+        <li><label>Password: <input type="password" name="password"></label></li>
+        <li><input type="submit" 
+                   name="login-btn" id="login-btn" value="Log in"></li>
+    </ul>
+    </form>    
+</div>
+<div id="password-change">
+    <p>Change your password.</p>
+    <form method="post" action="/api/account/password/change/">
+    <ul>
+        <li><label>New Password: <input type="password" name="password"></label></li>
+        <li><input type="submit" value="Change password"
+                   name="password-change-btn" id="password-change-btn"></li>
+    </ul>
+    </form>
+</div>
+<div id="password-reset">
+    <p>A new password will be emailed to the email address on file.</p>
+    <form method="post" action="/api/account/password/reset/">
+    <ul>
+        <li><label>Username: <input type="text" name="username"></label></li>
+        <li><input type="submit" value="Reset password"
+                   name="password-reset-btn" id="password-reset-btn"></li>
+    </ul>
+    </form>
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="js/todo.min.js"></script>
 </body>
