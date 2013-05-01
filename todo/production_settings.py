@@ -3,7 +3,7 @@ import os.path
 from passwords import *
 
 BASEDIR = os.path.dirname(os.path.dirname(__file__))
-APPDIR = os.path.dirname(BASEDIR)
+APPDIR = os.path.dirname(os.path.dirname(BASEDIR))
 
 DEBUG = False
 
@@ -34,3 +34,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_HOST_USER = 'mesha'
 
+ALLOWED_HOSTS = ['todo.mesha.org']

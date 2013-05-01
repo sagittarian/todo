@@ -21,11 +21,11 @@ import site
 # if running multiple sites in the same mod_wsgi process. To fix this, use
 # mod_wsgi daemon mode with each site in its own daemon process, or use
 # os.environ["DJANGO_SETTINGS_MODULE"] = "todo.settings"
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "todo.settings")
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "todo.settings")
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'todo.settings'
 
 path = os.path.abspath(os.path.join(this_dir, '..'))
 site.addsitedir(os.path.join(this_dir, '../venv/lib/python2.7/site-packages'))
