@@ -4,12 +4,11 @@ from django.contrib.auth.models import User
 
 
 PRIORITIES_LIST = list(range(3))
+PRIORITIES_NAMES = ('low', 'medium', 'high')
 LOW, MEDIUM, HIGH = PRIORITIES_LIST
-PRIORITIES = (
-    (LOW, LOW),
-    (MEDIUM, MEDIUM),
-    (HIGH, HIGH)
-)
+PRIORITIES = zip(PRIORITIES_LIST, PRIORITIES_NAMES)
+REVERSE_PRIORITIES = dict(zip(PRIORITIES_NAMES, PRIORITIES_LIST))
+PRIORITY_DICT = dict(PRIORITIES)
 DEFAULT_PRIORITY = MEDIUM
 
 LABEL_MAX_LEN = 255
@@ -24,7 +23,8 @@ class TodoItem(models.Model):
         return {
             'id': self.pk,
             'label': self.label,
-            'priority': self.priority,
+            # 'priority': self.priority,
+            'priority': PRIORITY_DICT[self.priority],
         }
 
     def __unicode__(self):

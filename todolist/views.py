@@ -1,7 +1,8 @@
-from models import TodoItem, LABEL_MAX_LEN, PRIORITIES_LIST
+from models import TodoItem, LABEL_MAX_LEN, PRIORITIES_NAMES, REVERSE_PRIORITIES
 from annoying.functions import get_object_or_None
 
 from todo.decorators import *
+
 
 #******* Decorators *******
 
@@ -34,14 +35,12 @@ def ajax_get_todo_fields(func):
     will get None for that field. (But if it is present then it must be
     valid.) Labels that are too long will currently be truncated.'''
     def newfunc(request, *args, **kw):
-        priority = request.POST.get('priority', '').strip()
+        priority = request.POST.get('priority', '').strip().lower()
         if priority:
-            try:
-                priority = int(request.POST['priority'])
-            except ValueError:
+            if priority not in PRIORITIES_NAMES:
                 return {'error': 'Invalid priority'}
-            if priority not in PRIORITIES_LIST:
-                return {'error': 'Invalid priority'}
+            else:
+                priority = REVERSE_PRIORITIES[priority]
         else:
             priority = None
         label = request.POST.get('label', '').strip()[:LABEL_MAX_LEN].strip()

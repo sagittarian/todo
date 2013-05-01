@@ -1,6 +1,7 @@
 logged_in = no
 csrftoken = null
-default_priority = 1
+default_priority = 'medium'
+priorities = ["low", "medium", "high"]
 
 $(document).ajaxSend (event, jqxhr, settings) ->
   if settings.url.slice(0, 1) is "/" and settings.type is 'POST'
@@ -24,6 +25,27 @@ display_messages = (data) ->
 get_header_row = ->
   $.el('tr.table-header').appendEl('th')
     .appendEl('th', text: 'Item').appendEl('th', text: 'Priority')
+
+get_priority_widget = (current=default_priority) ->
+  result = $.el 'select'
+  for priority in priorities
+    opt = $.el 'option', value: priority, text: priority
+    if priority is current
+      opt.attr 'selected', true
+    result.append opt
+  result.change ->
+    $el = $(this)
+    value = $el.find('option:selected').val()
+    {id, old_priority} = $el.parent().data()
+    url = '/api/todo/modify/'
+    data = id: id, priority: value
+    $.post url, data, (data, success, xhr) ->
+      if data.error?
+        $el.text old_priority
+      else
+        $el.parent().data 'old_priority', value
+      display_messages data
+  return result
 
 get_delbtn = ($parent) ->
   result = $parent.el 'td.delbtn', 
@@ -85,20 +107,6 @@ edit_cell = (value, settings) ->
     display_messages data
   return value
   
-edit_priority = (value, settings) ->
-  $el = $(this)
-  {id, old_priority} = $el.parent().data()
-  url = '/api/todo/modify/'
-  data = id: id, priority: value
-  $.post url, data, (data, success, xhr) ->
-    if data.error?
-      $el.text old_priority
-    else
-      $el.parent().data 'old_priority', value
-    console.log 'two'
-    display_messages data
-  return value
-
 add_cell = (value, settings) ->
   url = '/api/todo/add/'
   data = label: value
@@ -113,7 +121,9 @@ add_cell = (value, settings) ->
     $parent.removeClass().addClass 'todoitem'
     settings.itemtd.uneditable()
     settings.itemtd.editable edit_cell
-    settings.prioritytd.editable edit_priority
+    settings.prioritytd.editable edit_priority,
+      type: 'select'
+      data: priorities
   return value
 
 setlist = ->
@@ -127,18 +137,17 @@ setlist = ->
       $tr = $tdlist.el 'tr.todoitem'
       $delbtn = get_delbtn $tr
       $item = $tr.el 'td.item', text: item.label
-      $priority = $tr.el 'td.priority', text: item.priority
+      $tr.append get_priority_widget(item.priority)
       $tr.data 
         old_label: item.label, old_priority: item.priority, id: item.id
       $item.editable edit_cell
-      $priority.editable edit_priority
 
 additem = ->
   $tdlist = $('.todolist')
   $newrow = $tdlist.el 'tr.newitem'
   $delbtn = get_delbtn $newrow
   $item = $newrow.el 'td.item'
-  $priority = $newrow.el 'td.priority', text: default_priority
+  $priority = get_priority_widget().appendTo $newrow 
   $item.editable add_cell, 
     onblur_cb: -> $newrow.remove()
     row: $newrow
