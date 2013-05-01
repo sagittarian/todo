@@ -159,6 +159,7 @@ $ ->
   get_login_info()
   setlist()
   $('.additem-btn').click additem
+  $('.facebox').facebox()
   $(document).on 'reveal.facebox', (revealevent) ->
     $('a.facebox').facebox()
     $('form').on 'submit', (e) ->

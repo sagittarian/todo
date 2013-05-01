@@ -12,6 +12,14 @@
 .additem-btn {
     display: none;
 }
+#api-docs {
+    display: none;
+}
+#facebox #api-container {
+    max-height: 600px;
+    width: 800px;
+    overflow-y: scroll;
+}
 </style>
 <link rel="stylesheet" href="css/facebox.css">
 </head>
@@ -25,7 +33,7 @@
     <table class="todolist"></table>
     <a class="additem-btn" href="">Add item</a>
 </div>
-<div class="footer"></div>
+<div class="footer"><a href="#api-docs" class="facebox">API</a></div>
 <div id="register">
     <p>Sign up in two seconds.</p>
     <form method="post" action="/api/account/register/" data-refresh="1">
@@ -69,6 +77,71 @@
                    name="password-reset-btn" id="password-reset-btn"></li>
     </ul>
     </form>
+</div>
+<div id="api-docs">
+  <div id="api-container">
+    <h2>API documentation</h2>
+    
+    <p>All of the functionality on this site is available through
+        a public API. All requests return a JSON response.
+        All responses have an <i>error</i> key and a <i>csrftoken</i> key.
+        If no error occurred, then <i>error</i> will be null.
+        The <i>csrftoken</i> must be passed back along with any POST 
+        request. It can be passed back either as the <i>csrfmiddlewaretoken</i>
+        key in the POST data, or as the <i>X-CSRFToken</i> request header.
+        (The <i>csrftoken</i> is not authentication. You must still 
+        authenticate before you make any request regarding data and pass back
+        the session cookie in your request.) 
+        Any request that needs to send additional data (such as a username
+        or an item ID) must use the POST method. 
+        The following urls can be accessed.</p>
+        
+    <h3>/api/account/</h3>
+    <p>Get general info about the logged in user. Currently only the
+        <i>username</i> is returned (and will be null if there
+        is no logged in user).</p>
+     
+    <h3>/api/account/register/</h3>
+    <p>Register a new account and immediately log in. 
+        Available parameters are <i>username</i>,
+        <i>email</i>, and <i>password</i>. If the email is provided,
+        it will be possible to reset the password by sending a new
+        password to the email address.</p>
+        
+    <h3>/api/account/login/</h3>
+    <p>Log in to an account. Parameters are <i>username</i> and 
+        <i>password</i>.</p>
+        
+    <h3>/api/account/logout/</h3>
+    <p>Log out of your account.</p>
+    
+    <h3>/api/account/password/change/</h3>
+    <p>Change the password for the currently logged in user.
+        The parameter <i>password</i> is the new password. If the change
+        succeeded, a status message will be provided in the <i>status</i>
+        key in the response.</p>
+        
+    <h3>/api/account/password/reset/</h3>
+    <p>Reset the password for the <i>username</i> provided in the request,
+        and email the new password to the email on file.</p>
+        
+    <h3>/api/todo/getlist/</h3>
+    <p>Retrieve the list of todo items for the currently logged in user.
+        The response will have an <i>items</i> key with a list of 
+        todo items.</p>
+    
+    <h3>/api/todo/add/</h3>
+    <p>Add a new todo item with the given <i>label</i> and optionally
+        the given <i>priority</i>. The response will contain an <i>id</i>
+        with the ID of the new item.</p>
+    
+    <h3>/api/todo/delete/</h3>
+    <p>Delete the todo item with the given <i>id</i>.</p>
+    
+    <h3>/api/todo/modify/</h3>
+    <p>Modify the <i>label</i> or the <i>priority</i> (or both) of the
+        item with the given <i>id</i>.</p>
+  </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="js/todo.min.js"></script>
