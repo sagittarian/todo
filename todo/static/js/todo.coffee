@@ -36,6 +36,8 @@ get_login_info = ->
   $.get url, (data, textStatus, jqXHR) ->
     return if data.error?
     set_login_info data.username
+    if data.username?
+      setlist()
     
 set_login_info = (username) ->
   $header = $('#account-info').empty()
@@ -157,7 +159,6 @@ account_callback = (data, success, xhr) ->
 
 $ ->
   get_login_info()
-  setlist()
   $('.additem-btn').click additem
   $('.facebox').facebox()
   $(document).on 'reveal.facebox', (revealevent) ->
@@ -169,5 +170,5 @@ $ ->
       data = $form.serialize()
       $.post url, data, (data, success, xhr) ->
         account_callback data, success, xhr
-        if $form.data 'refresh' is '1'
+        if $form.data('refresh') is 1
           setlist()
