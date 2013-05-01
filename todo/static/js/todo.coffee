@@ -119,7 +119,7 @@ add_cell = (value, settings) ->
     $parent.data 
       id: result.id, old_label: value, old_priority: default_priority
     $parent.removeClass().addClass 'todoitem'
-    settings.itemtd.uneditable()
+    settings.itemtd.editable 'destroy'
     settings.itemtd.editable edit_cell
     settings.prioritytd.editable edit_priority,
       type: 'select'
