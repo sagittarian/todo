@@ -1,5 +1,6 @@
 #********** Some useful utility decorators ***********
 from django.core.context_processors import csrf
+from django.views.decorators.cache import never_cache
 
 from annoying.decorators import ajax_request as _ajax_request
 
@@ -7,6 +8,7 @@ def ajax_request(func):
     '''Return a JSON response from the provided dict or list from the
     decorated view, and add an error: null key if it doesn't already
     have an error key.'''
+    @never_cache
     @_ajax_request
     def newfunc(request, *args, **kw):
         csrftoken = unicode(csrf(request)['csrf_token'])
